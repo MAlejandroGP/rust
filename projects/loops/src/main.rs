@@ -44,3 +44,15 @@ fn loop_labels(){
     }
     println!("End count = {count}");
 }
+
+fn while_loop(){
+    let mut number = 3;
+
+    while number != 0{
+        println!("{number}!");
+
+        number -= 1;
+    }
+
+    println!("LIFTOFF!!!");
+}
