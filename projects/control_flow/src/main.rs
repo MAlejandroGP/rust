@@ -54,3 +54,12 @@ fn if_let(){
 
     println!("The value of number is: {number}");
 }
+
+fn if_let_various_types(){
+    let condition = true;
+
+    //Potential values must always be of the same type
+    //let number = if condition { 5 } else { "six" };
+
+    //println!("The value of number is: {number}");
+}
