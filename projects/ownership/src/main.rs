@@ -144,3 +144,99 @@ fn calculate_length(s: String) -> (String, usize) {
 
     (s, length)
 }
+
+
+fn references_and_borrowing(){
+    let s1 = String::from("hello");
+
+    //Giving a reference instead of ownership
+    let len = calculate_length(&s1);
+
+    println!("The length of '{s1}' is {len}.");
+}
+
+//This allows for simpler code
+fn calculate_length(s: &String) -> usize{//s is a reference to a String
+    s.len()
+}//Here, s goes out of scope. 
+//But because s does not have ownership of what it refers to,
+//the String is not dropped.
+
+
+fn modifying_borrowed_variables(){
+    let s = String::from("hello");
+
+    change(&s);
+}
+
+fn change(some_string: &String){
+    //You can't modify a borrowed variable that is not mutable
+    some_string.push_str(", world");
+}
+
+
+fn mutable_references(){
+    let mut s = String::from("hello");
+
+    change(&mut s);
+}
+
+fn change(some_string: &mut String){
+    some_string.push_str(", world");
+}
+
+
+fn two_mutable_references(){
+    let mut s = String::from("hello");
+
+    //You can only have one mutable reference to a value
+    let r1 = &mut s;
+    let r2 = &mut s;
+
+    println!("{r1}, {r2}");
+}
+
+fn two_mutable_references_different_scope(){
+    let mut s = String::from("hello");
+
+    {
+        let r1 = &mut s;
+    } //r1 goes out of scope here, so we can make a new reference with no problems.
+
+    let r2 = &mut s;
+    //This will not work, r1 has been invalidated
+}
+
+fn combining_mutable_and_immutable_references(){
+        let mut s = String::from("hello");
+
+    let r1 = &s; // no problem
+    let r2 = &s; // no problem
+    let r3 = &mut s; // BIG PROBLEM
+
+    println!("{r1}, {r2}, and {r3}");
+}
+
+fn separate_calls_to_mutable_and_immutable_references(){
+    let mut s = String::from("hello");
+
+    let r1 = &s; // no problem
+    let r2 = &s; // no problem
+    println!("{r1} and {r2}");
+    // Variables r1 and r2 will not be used after this point.
+
+    //r1 and r2 mustn't be called from this point forward
+    let r3 = &mut s; // no problem
+    println!("{r3}");
+}
+
+fn dangling_reference(){
+    let reference_to_nothing = dangle();
+}
+
+fn dangle() -> &String{//Returns a reference to a String
+    let s = String::from("hello");//s is a new String
+
+    &s//We return a reference to the String, s
+}//s goes out of scope and is dropped, so its memory goes away.
+ //Danger!
