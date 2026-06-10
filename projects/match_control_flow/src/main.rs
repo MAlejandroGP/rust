@@ -30,7 +30,7 @@ fn value_in_cents_multiline(coin: Coin) -> u8 {
     }
 }
 
-#[derive(Debug)]//so we can inspect the state in a minute
+#[derive(Debug)]//so we can inspect the state
 enum UsState{
     Alabama, 
     Alaska, 
